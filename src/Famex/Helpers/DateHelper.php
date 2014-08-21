@@ -20,7 +20,7 @@ class DateHelper {
 	 * @param integer $precision Optional precision 
 	 * @return string time difference
 	 */
-	public function getDateDiff($time1, $time2, $precision = 2){
+	public static function getDateDiff($time1, $time2, $precision = 2){
 		// If not numeric then convert timestamps
 		if( !is_int( $time1 ) ) {
 			$time1 = strtotime( $time1 );
