@@ -1,0 +1,14 @@
+{
+	"name": "famex/helpers",
+	"authors": [
+		{
+			"name": "Dominik Schwind",
+			"homepage": "http://dominikschwind.com",
+			"role": "Developer"
+		}
+	],
+	"version": "0.1.0",
+	"autoload": {
+		"psr-0": {"Famex\\Helpers": "src/"}
+	}
+}
