@@ -12,12 +12,15 @@
   "require": {
     "php": "^7"
   },
-  "version": "0.1.2",
   "type": "library",
   "license": "MIT",
   "autoload": {
     "psr-4": {
       "Famex\\Helpers\\": "src"
     }
+  },
+  "config": {
+    "lock": false,
+    "sort-packages": true
   }
 }

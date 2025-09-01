@@ -1,4 +1,5 @@
 <?php
+
 namespace Famex\Helpers;
 
 class LatLongDistHelper {
