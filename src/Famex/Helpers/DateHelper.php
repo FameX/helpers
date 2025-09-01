@@ -1,42 +1,54 @@
 <?php
+declare(strict_types=1);
+
 namespace Famex\Helpers;
 
 class DateHelper {
-	/**
-	 * Get human readable time difference between 2 dates
-	 *
-	 * Return difference between 2 dates in year, month, hour, minute or second
-	 * The $precision caps the number of time units used: for instance if
-	 * $time1 - $time2 = 3 days, 4 hours, 12 minutes, 5 seconds
-	 * - with precision = 1 : 3 days
-	 * - with precision = 2 : 3 days, 4 hours
-	 * - with precision = 3 : 3 days, 4 hours, 12 minutes
-	 * 
-	 * From: http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
-	 * From: https://gist.github.com/ozh/8169202
-	 *
-	 * @param mixed $time1 a time (string or timestamp)
-	 * @param mixed $time2 a time (string or timestamp)
-	 * @param integer $precision Optional precision 
-	 * @return string time difference
-	 */
-	public static function getDateDiff($time1, $time2, $precision = 2){
+    /**
+     * Get human readable time difference between 2 dates
+     *
+     * Return difference between 2 dates in year, month, hour, minute or second
+     * The $precision caps the number of time units used: for instance if
+     * $time1 - $time2 = 3 days, 4 hours, 12 minutes, 5 seconds
+     * - with precision = 1 : 3 days
+     * - with precision = 2 : 3 days, 4 hours
+     * - with precision = 3 : 3 days, 4 hours, 12 minutes
+     *
+     * From: http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
+     * From: https://gist.github.com/ozh/8169202
+     *
+     * @param  int|string  $time1  a time (string or timestamp)
+     * @param  int|string  $time2  a time (string or timestamp)
+     * @param  integer  $precision  Optional precision
+     * @return string time difference
+     * @throws DateHelperException
+     */
+	public static function getDateDiff($time1, $time2, int $precision = 2): string
+    {
 		// If not numeric then convert timestamps
 		if( !is_int( $time1 ) ) {
-			$time1 = strtotime( $time1 );
+			$t1 = strtotime( $time1 );
+            if( $t1 === false ) {
+                throw new DateHelperException('Unable to parse date: '.$time1);
+            }
+            $time1 = $t1;
 		}
 		if( !is_int( $time2 ) ) {
-			$time2 = strtotime( $time2 );
+			$t2 = strtotime( $time2 );
+            if( $t2 === false ) {
+                throw new DateHelperException('Unable to parse date: '.$time2);
+            }
+            $time2 = $t2;
 		}
  
 		// If time1 > time2 then swap the 2 values
 		if( $time1 > $time2 ) {
-			list( $time1, $time2 ) = array( $time2, $time1 );
+			list( $time1, $time2 ) = [$time2, $time1];
 		}
  
 		// Set up intervals and diffs arrays
-		$intervals = array( 'year', 'month', 'day', 'hour', 'minute', 'second' );
-		$diffs = array();
+		$intervals = ['year', 'month', 'day', 'hour', 'minute', 'second'];
+		$diffs = [];
  
 		foreach( $intervals as $interval ) {
 			// Create temp time from time1 and interval
@@ -52,7 +64,11 @@ class DateHelper {
 				$looped++;
 			}
  
-			$time1 = strtotime( "+" . $looped . " " . $interval, $time1 );
+			$t = strtotime( "+" . $looped . " " . $interval, $time1 );
+            if($t === false) {
+                throw new DateHelperException('Unable to parse date: '.$time1);
+            }
+            $time1 = $t;
 			$diffs[ $interval ] = $looped;
 		}
  
@@ -65,7 +81,7 @@ class DateHelper {
 			}
 			// Add value and interval if value is bigger than 0
 			if( $value > 0 ) {
-				if( $value != 1 ){
+				if( $value !== 1 ){
 					$interval .= "s";
 				}
 				// Add value and interval to times array
