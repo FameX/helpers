@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Famex\Helpers;
 
-class DateHelper {
+class DateHelper
+{
     /**
      * Get human readable time difference between 2 dates
      *
@@ -23,74 +24,74 @@ class DateHelper {
      * @return string time difference
      * @throws DateHelperException
      */
-	public static function getDateDiff($time1, $time2, int $precision = 2): string
+    public static function getDateDiff($time1, $time2, int $precision = 2): string
     {
-		// If not numeric then convert timestamps
-		if( !is_int( $time1 ) ) {
-			$t1 = strtotime( $time1 );
-            if( $t1 === false ) {
+        // If not numeric then convert timestamps
+        if (!is_int($time1)) {
+            $t1 = strtotime($time1);
+            if ($t1 === false) {
                 throw new DateHelperException('Unable to parse date: '.$time1);
             }
             $time1 = $t1;
-		}
-		if( !is_int( $time2 ) ) {
-			$t2 = strtotime( $time2 );
-            if( $t2 === false ) {
+        }
+        if (!is_int($time2)) {
+            $t2 = strtotime($time2);
+            if ($t2 === false) {
                 throw new DateHelperException('Unable to parse date: '.$time2);
             }
             $time2 = $t2;
-		}
- 
-		// If time1 > time2 then swap the 2 values
-		if( $time1 > $time2 ) {
-			list( $time1, $time2 ) = [$time2, $time1];
-		}
- 
-		// Set up intervals and diffs arrays
-		$intervals = ['year', 'month', 'day', 'hour', 'minute', 'second'];
-		$diffs = [];
- 
-		foreach( $intervals as $interval ) {
-			// Create temp time from time1 and interval
-			$ttime = strtotime( '+1 ' . $interval, $time1 );
-			// Set initial values
-			$add = 1;
-			$looped = 0;
-			// Loop until temp time is smaller than time2
-			while ( $time2 >= $ttime ) {
-				// Create new temp time from time1 and interval
-				$add++;
-				$ttime = strtotime( "+" . $add . " " . $interval, $time1 );
-				$looped++;
-			}
- 
-			$t = strtotime( "+" . $looped . " " . $interval, $time1 );
-            if($t === false) {
+        }
+
+        // If time1 > time2 then swap the 2 values
+        if ($time1 > $time2) {
+            list($time1, $time2) = [$time2, $time1];
+        }
+
+        // Set up intervals and diffs arrays
+        $intervals = ['year', 'month', 'day', 'hour', 'minute', 'second'];
+        $diffs = [];
+
+        foreach ($intervals as $interval) {
+            // Create temp time from time1 and interval
+            $ttime = strtotime('+1 '.$interval, $time1);
+            // Set initial values
+            $add = 1;
+            $looped = 0;
+            // Loop until temp time is smaller than time2
+            while ($time2 >= $ttime) {
+                // Create new temp time from time1 and interval
+                $add++;
+                $ttime = strtotime("+".$add." ".$interval, $time1);
+                $looped++;
+            }
+
+            $t = strtotime("+".$looped." ".$interval, $time1);
+            if ($t === false) {
                 throw new DateHelperException('Unable to parse date: '.$time1);
             }
             $time1 = $t;
-			$diffs[ $interval ] = $looped;
-		}
- 
-		$count = 0;
-		$times = array();
-		foreach( $diffs as $interval => $value ) {
-			// Break if we have needed precission
-			if( $count >= $precision ) {
-				break;
-			}
-			// Add value and interval if value is bigger than 0
-			if( $value > 0 ) {
-				if( $value !== 1 ){
-					$interval .= "s";
-				}
-				// Add value and interval to times array
-				$times[] = $value . " " . $interval;
-				$count++;
-			}
-		}
- 
-		// Return string with times
-		return implode( ", ", $times );
-	}
+            $diffs[$interval] = $looped;
+        }
+
+        $count = 0;
+        $times = array();
+        foreach ($diffs as $interval => $value) {
+            // Break if we have needed precission
+            if ($count >= $precision) {
+                break;
+            }
+            // Add value and interval if value is bigger than 0
+            if ($value > 0) {
+                if ($value !== 1) {
+                    $interval .= "s";
+                }
+                // Add value and interval to times array
+                $times[] = $value." ".$interval;
+                $count++;
+            }
+        }
+
+        // Return string with times
+        return implode(", ", $times);
+    }
 }
