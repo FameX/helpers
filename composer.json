@@ -1,18 +1,26 @@
 {
-	"name": "famex/helpers",
-	"description": "Various small helper classes",
-	"authors": [
-		{
-			"name": "Dominik Schwind",
-			"email": "dschwind@lostfocus.de",
-			"homepage": "http://dominikschwind.com",
-			"role": "Developer"
-		}
-	],
-	"version": "0.1.2",
-	"type": "library",
-	"license": "MIT",
-	"autoload": {
-		"psr-0": {"Famex\\Helpers": "src/"}
-	}
+  "name": "famex/helpers",
+  "description": "Various small helper classes",
+  "authors": [
+    {
+      "name": "Dominik Schwind",
+      "email": "dschwind@lostfocus.de",
+      "homepage": "https://dominikschwind.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7"
+  },
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Famex\\Helpers\\": "src"
+    }
+  },
+  "config": {
+    "lock": false,
+    "sort-packages": true
+  }
 }
