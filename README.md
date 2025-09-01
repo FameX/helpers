@@ -5,7 +5,7 @@ Various small helper classes
 
 ## Installation
 
-Just add `"famex/helpers": "0.1.*",` to your `composer.json` file.
+Just add `"famex/helpers": "0.2.*",` to your `composer.json` file.
 
 ## Classes
 
